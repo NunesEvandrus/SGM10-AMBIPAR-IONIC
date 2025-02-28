@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Editar data</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <my-form
+    submitColor="secondary"
+    submitText="Alterar data"
+    [controls]="controls"
+    [value]="ordemServico"
+    (submit)="salvar($event)"
+  ></my-form>
+</ion-content>

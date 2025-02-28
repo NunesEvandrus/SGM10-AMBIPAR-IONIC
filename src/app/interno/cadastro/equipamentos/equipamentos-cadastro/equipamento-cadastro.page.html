@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      {{id ? 'Edição' : 'Cadastro'}} de {{singularRegisterName}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <my-form
+    [loading]="loading"
+    submitColor="primary"
+    submitText="Programar"
+    [value]="formValue"
+    [controls]="formControls"
+    (myChange)="atualizaInformacoes($event)"
+    (mySubmit)="salvar($event)"
+  ></my-form>
+</ion-content>

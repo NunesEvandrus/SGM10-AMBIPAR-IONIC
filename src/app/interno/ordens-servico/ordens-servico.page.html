@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <app-menu-toggle></app-menu-toggle>
+    </ion-buttons>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="adicionarProgramacao()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+      <ion-button [color]="hasFilter ? 'warning' : null" (click)="openFilter()">
+        <ion-icon
+          slot="icon-only"
+          [name]="hasFilter ? 'funnel' : 'funnel-outline'"
+        ></ion-icon>
+      </ion-button>
+      <ion-button (click)="gridComponent.exportToExcel(title)">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <app-filter-preview
+    *ngIf="hasFilter"
+    [filter]="filter"
+    [filterMaps]="filterMaps"
+    [filterControls]="filterControls"
+    (click)="openFilter()"
+  ></app-filter-preview>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <app-grid
+    #gridComponent
+    [singleRowColumns]="columns"
+    [items]="items"
+    [paginator]="paginator"
+    [sorting]="sorting"
+    [total]="total"
+    [loading]="loading"
+    (doRefresh)="refreshItems($event)"
+  ></app-grid>
+  <ng-template #actionsCell let-ordemServico="item">
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      title="Alterar data da ordem de serviço"
+      [disabled]="ordemServico.statusProgramacao != statusProgramacao.CONCLUIDA"
+      [color]="ordemServico.statusProgramacao != statusProgramacao.CONCLUIDA ? 'medium' : 'primary'"
+      (click)="funcaoNaoImplementada(ordemServico)"
+    >
+      <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      title="Pausar Ordem de Serviço"
+      [disabled]="ordemServico.statusProgramacao != statusProgramacao.DISPONIVEL"
+      [color]="ordemServico.statusProgramacao != statusProgramacao.DISPONIVEL ? 'medium' : 'primary'"
+      (click)="funcaoNaoImplementada(ordemServico)"
+    >
+      <ion-icon slot="icon-only" name="pause-circle-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      [title]="ordemServico.statusProgramacao == statusProgramacao.CONCLUIDA ? 'Executada' : 'Executar'"
+      [disabled]="ordemServico.statusProgramacao != statusProgramacao.DISPONIVEL"
+      [color]="ordemServico.statusProgramacao != statusProgramacao.DISPONIVEL ? 'medium' : 'primary'"
+      (click)="finalizarOrdemServico(ordemServico)"
+    >
+      <ion-icon slot="icon-only" name="play-circle-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      title="Visualizar OS Concluída"
+      [disabled]="ordemServico.statusProgramacao != statusProgramacao.CONCLUIDA"
+      [color]="ordemServico.statusProgramacao != statusProgramacao.CONCLUIDA ? 'medium' : 'primary'"
+      (click)="exibirOrdemImpressaConcluida(ordemServico.id)"
+    >
+      <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      title="Imprimir OS"
+      [disabled]="false"
+      color="primary"
+      (click)="exibirOrdemImpressa(ordemServico.id)"
+    >
+      <ion-icon slot="icon-only" name="reader-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      class="table-button ion-margin-start"
+      size="small"
+      fill="clear"
+      [disabled]="ordemServico.statusProgramacao != statusProgramacao.CONCLUIDA"
+      [color]="ordemServico.statusProgramacao == statusProgramacao.CONCLUIDA ? 'medium' : 'danger'"
+      title="Excluir"
+      (click)="funcaoNaoImplementada(ordemServico)"
+    >
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+  </ng-template>
+</ion-content>

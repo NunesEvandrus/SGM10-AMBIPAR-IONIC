@@ -1,0 +1,12 @@
+{
+  "appId": "br.com.ecnsystem.sgm10",
+  "appName": "SGM 10",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 10000,
+      "launchAutoHide": false
+    }
+  }
+}

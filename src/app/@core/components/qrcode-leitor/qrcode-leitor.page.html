@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Leitor de QR Code</ion-title>
+    <div class="ion-padding-end" slot="end" *ngIf="loading">
+      <ion-spinner color="light"></ion-spinner>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row style="height: 100%" class="ion-align-items-center">
+    <ion-col class="ion-no-padding">
+      <div #qrcodeReader id="qrcode-reader" class="qrcode-reader"></div>
+    </ion-col>
+  </ion-row>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="podeAlterarCamera"
+  >
+    <ion-fab-button (click)="alterarCamera()">
+      <ion-icon name="camera-reverse-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

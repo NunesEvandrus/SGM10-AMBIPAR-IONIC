@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Geolocalização </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  ><iframe
+    class="iframe-mapa"
+    loading="lazy"
+    allowfullscreen
+    [src]="src | safe: 'resourceUrl'"
+    *ngIf="src"
+  >
+  </iframe
+></ion-content>
+
+<ion-footer *ngIf="geolocalizacao?.Precisao">
+  <ion-toolbar color="light">
+    <ion-title>
+      Precisão:
+      <ion-text color="primary" class="ion-float-right">
+        {{geolocalizacao.Precisao | formataNumero}} metros
+      </ion-text>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar [color]="headerColor">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Filtro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <my-form
+    [submitColor]="headerColor"
+    [submitText]="submitText"
+    secundaryButtonText="Limpar filtro"
+    [controls]="controls"
+    [value]="filter"
+    (mySubmit)="filterPropagate($event)"
+    (secundaryButtonClick)="filterPropagate({})"
+  ></my-form>
+</ion-content>

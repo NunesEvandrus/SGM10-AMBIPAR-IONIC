@@ -1,0 +1,57 @@
+<ion-row class="ion-align-items-center">
+  <ion-col class="page-size-wrap" size="auto">
+    <ion-select
+      class="page-size"
+      [value]="paginator.PageSize"
+      (ionChange)="changePageSize($event)"
+      interface="popover"
+      okText="Confirmar"
+      cancelText="Cancelar"
+    >
+      <ion-select-option [value]="0"> Todos </ion-select-option>
+      <ion-select-option [value]="10"> 10 </ion-select-option>
+      <ion-select-option [value]="15"> 15 </ion-select-option>
+      <ion-select-option [value]="25"> 25 </ion-select-option>
+      <ion-select-option [value]="50"> 50 </ion-select-option>
+      <ion-select-option [value]="100"> 100 </ion-select-option>
+      <!-- <ion-select-option *ngFor="let pageSize of pageSizes" [value]="pageSize">
+        {{ pageSize || "Todos" }}
+      </ion-select-option> -->
+    </ion-select>
+    <span class="page-size-label" *ngIf="paginator.PageSize">
+      itens por pág.
+    </span>
+    <span class="page-size-label" *ngIf="!paginator.PageSize"
+      >&nbsp;&nbsp;&nbsp;os itens
+    </span>
+  </ion-col>
+  <ion-col size="auto" class="ion-padding-horizontal">
+    {{ paginator.PageSize * (paginator.Page - 1) + 1 }} a
+    {{
+      paginator.PageSize && paginator.PageSize * paginator.Page < total
+        ? paginator.PageSize * paginator.Page
+        : total
+    }}
+    de {{ total }} <span class="ion-hide-sm-down">itens</span>
+  </ion-col>
+  <ion-col class="ion-text-right">
+    <ion-button
+      class="ion-no-padding"
+      shape="round"
+      fill="clear"
+      [disabled]="isFirstPage || !paginator.PageSize"
+      (click)="changePage(-1)"
+    >
+      <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      class="ion-no-padding"
+      shape="round"
+      fill="clear"
+      [disabled]="isLastPage || !paginator.PageSize"
+      (click)="changePage(1)"
+    >
+      <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </ion-col>
+</ion-row>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512pt" height="512pt" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="ionicon">
+ <title>Arrow Down</title>
+
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_6">
+   <path stroke="currentColor" id="svg_1" d="m45,366.75001l111,111l111,-111m-111,95.58334l0,-225.08334" stroke-width="48" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+   <path transform="rotate(180 356 154.5)" stroke="currentColor" id="svg_5" d="m245,163.75001l111,111l111.00001,-111m-111.00001,95.58333l0,-225.08334" stroke-width="48" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+  </g>
+ </g>
+</svg>

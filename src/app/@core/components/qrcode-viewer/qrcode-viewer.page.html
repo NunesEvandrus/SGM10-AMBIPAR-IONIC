@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Visualizador de QR Code</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="qrcodeMask.baixarImagem()">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <app-qrcode-mask
+    #qrcodeMask
+    [qrcode]="qrcode"
+    [titulo]="titulo"
+    [subtitulo]="subtitulo"
+    [logo]="logo"
+    [footer]="footer"
+  ></app-qrcode-mask>
+</ion-content>

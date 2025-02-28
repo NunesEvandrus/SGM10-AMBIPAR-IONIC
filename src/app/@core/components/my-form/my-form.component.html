@@ -1,0 +1,251 @@
+<div class="my-loading-overlay" *ngIf="loading">
+  <ion-spinner color="primary"></ion-spinner>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <ion-grid>
+    <ion-row *ngIf="hasRequiredFields">
+      <ion-col class="ion-padding-start ion-margin-top p18">
+        <ion-text color="medium">
+          <span
+            class="campo-obrigatorio campo-obrigatorio--no-margin-left"
+          ></span>
+          campos obrigatórios
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-end">
+      <ion-col
+        *ngFor="let control of this.controls"
+        [size]="control.ColSize?.Size"
+        [sizeXs]="control.ColSize?.SizeXs || 12"
+        [sizeSm]="control.ColSize?.SizeSm || control.ColSize?.Size"
+        [sizeMd]="control.ColSize?.SizeMd || control.ColSize?.Size"
+        [sizeLg]="control.ColSize?.SizeLg || control.ColSize?.Size"
+        [sizeXl]="control.ColSize?.SizeXl || control.ColSize?.Size"
+      >
+        <ion-item
+          [id]="'field-' + control.Key"
+          [ngClass]="{
+            'cursor-pointer':
+              control.Type === controlTypes.DATE ||
+              control.Type === controlTypes.TIME ||
+              control.Type === controlTypes.BOOLEAN ||
+              control.Type === controlTypes.SELECT_CUSTOM
+          }"
+          [button]="
+            control.Type === controlTypes.PHOTO ||
+            control.Type === controlTypes.SELECT_CUSTOM
+          "
+          [disabled]="
+            (control.Type === controlTypes.DATE ||
+              control.Type === controlTypes.TIME) &&
+            control.Params.Disabled
+          "
+          (click)="handleClickControl(control)"
+        >
+          <ion-label
+            class="ion-text-wrap"
+            [position]="
+              control.Type !== controlTypes.DATE &&
+              control.Type !== controlTypes.TIME &&
+              control.Type !== controlTypes.PHOTO
+                ? 'floating'
+                : undefined
+            "
+            *ngIf="
+              control.Type !== controlTypes.BOOLEAN &&
+              control.Type !== controlTypes.INPUT &&
+              control.Type !== controlTypes.TEXTAREA &&
+              control.Type !== controlTypes.SELECT_CUSTOM &&
+              control.Type !== controlTypes.SELECT
+            "
+          >
+            {{ control.Params.Label }}
+            <span
+              class="campo-obrigatorio"
+              *ngIf="control.Params.Required"
+            ></span>
+          </ion-label>
+          <ng-container [ngSwitch]="control.Type">
+            <ion-input
+              *ngSwitchCase="controlTypes.INPUT"
+              [label]="
+                control.Params.Label + (control.Params.Required ? ' *' : '')
+              "
+              labelPlacement="floating"
+              [formControlName]="control.Key"
+              (ionChange)="propagateChange($event, control.Key)"
+              [placeholder]="control.Params.Placeholder"
+              [type]="control.Params.Type"
+            ></ion-input>
+
+            <ion-textarea
+              *ngSwitchCase="controlTypes.TEXTAREA"
+              [label]="
+                control.Params.Label + (control.Params.Required ? ' *' : '')
+              "
+              labelPlacement="floating"
+              [formControlName]="control.Key"
+              (ionChange)="propagateChange($event, control.Key)"
+              [placeholder]="control.Params.Placeholder"
+              rows="3"
+            ></ion-textarea>
+
+            <ng-container *ngSwitchCase="controlTypes.DATE">
+              <ion-text (click)="handleClickControl(control)">
+                {{ formGroup.controls[control.Key].value | date : "dd/MM/Y" }}
+              </ion-text>
+              <ion-popover
+                class="popover-date"
+                size="cover"
+                [isOpen]="popoverOpen[control.Key]"
+                show-backdrop="true"
+              >
+                <ng-template>
+                  <ion-datetime
+                    presentation="date"
+                    locale="pt-BR"
+                    showDefaultButtons="true"
+                    doneText="Confirmar"
+                    cancelText="Cancelar"
+                    [formControlName]="control.Key"
+                    (ionChange)="propagateChange($event, control.Key)"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-popover>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="controlTypes.TIME">
+              <ion-text (click)="handleClickControl(control)">
+                {{ formGroup.controls[control.Key].value | date : "HH:mm" }}
+              </ion-text>
+              <ion-popover
+                class="popover-date"
+                size="cover"
+                [isOpen]="popoverOpen[control.Key]"
+                show-backdrop="true"
+              >
+                <ng-template>
+                  <ion-datetime
+                    presentation="time"
+                    locale="pt-BR"
+                    showDefaultButtons="true"
+                    doneText="Confirmar"
+                    cancelText="Cancelar"
+                    [formControlName]="control.Key"
+                    (ionChange)="propagateChange($event, control.Key)"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-popover>
+            </ng-container>
+
+            <ion-toggle
+              *ngSwitchCase="controlTypes.BOOLEAN"
+              label-placement="end"
+              justify="start"
+              [formControlName]="control.Key"
+              (ionChange)="propagateChange($event, control.Key)"
+            >
+              {{ control.Params.Label }}
+              <span
+                class="campo-obrigatorio"
+                *ngIf="control.Params.Required"
+              ></span>
+            </ion-toggle>
+
+            <ng-container *ngSwitchCase="controlTypes.PHOTO">
+              <ion-icon
+                *ngIf="formGroup.controls[control.Key].value"
+                class="align-self-center"
+                color="primary"
+                name="image-outline"
+                slot="end"
+              ></ion-icon>
+            </ng-container>
+
+            <ion-select
+              *ngSwitchCase="controlTypes.SELECT"
+              [label]="
+                control.Params.Label + (control.Params.Required ? ' *' : '')
+              "
+              labelPlacement="floating"
+              [formControlName]="control.Key"
+              (ionChange)="propagateChange($event, control.Key)"
+              [multiple]="control.Params.Multi"
+              [placeholder]="control.Params.Placeholder"
+              cancelText="Cancelar"
+              okText="Ok"
+            >
+              <ion-select-option
+                *ngFor="let option of control.Params.Options"
+                [value]="option.Key"
+              >
+                {{ option.Label }}
+              </ion-select-option>
+            </ion-select>
+
+            <ion-input
+              readonly="true"
+              class="cursor-pointer"
+              *ngSwitchCase="controlTypes.SELECT_CUSTOM"
+              [label]="
+                control.Params.Label + (control.Params.Required ? ' *' : '')
+              "
+              labelPlacement="floating"
+              [value]="
+                control.Params.Multi
+                  ? formGroup.controls[control.Key]?.value?.length
+                    ? formGroup.controls[control.Key].value.length +
+                      (formGroup.controls[control.Key].value.length > 1
+                        ? ' itens'
+                        : ' item')
+                    : 'Nenhum item selecionado'
+                  : formGroup.controls[control.Key]?.value
+                  ? findLabel(
+                      control.Params.Options,
+                      formGroup.controls[control.Key]?.value
+                    )
+                  : 'Nenhum item selecionado'
+              "
+            >
+            </ion-input>
+          </ng-container>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="warningText">
+      <ion-col class="ion-padding-top ion-padding-horizontal">
+        <ion-icon name="warning-outline" color="warning"></ion-icon>
+        <ion-text color="medium">
+          {{ warningText }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row
+      class="ion-padding-vertical"
+      [ngClass]="{
+        'ion-justify-content-center': !secundaryButtonText,
+        'ion-justify-content-between': secundaryButtonText
+      }"
+    >
+      <ion-col size="auto" *ngIf="secundaryButtonText">
+        <ion-button
+          [color]="secundaryButtonColor"
+          type="button"
+          (click)="propagateSecundaryButtonClick()"
+        >
+          {{ secundaryButtonText }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-button
+          [color]="submitColor"
+          type="submit"
+          [disabled]="formGroup.invalid"
+        >
+          {{ submitText }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>

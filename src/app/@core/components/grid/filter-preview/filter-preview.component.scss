@@ -1,0 +1,31 @@
+.filter-preview {
+  cursor: pointer;
+
+  &:hover {
+    --ion-color-base: rgba(var(--ion-color-primary-rgb), 0.05) !important;
+  }
+
+  &__wrap {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    color: #444;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    padding: 4px 0;
+  }
+
+  &__item {
+    padding: 2px 5px;
+    margin: 4px;
+    border: 1px solid rgba(var(--ion-color-primary-rgb), 0.2);
+    border-radius: 3px;
+    background-color: rgba(var(--ion-color-primary-rgb), 0.08);
+  }
+
+  &__value {
+    font-weight: bold;
+  }
+}

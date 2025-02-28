@@ -1,0 +1,352 @@
+<ng-template #headerCell let-column="column">
+  <th
+    (click)="updateSort(column.Key, column.NoSort)"
+    [class]="'header-column ' + (column.CssClass || '')"
+    [ngClass]="{ 'header-column--sortable': !column.NoSort }"
+  >
+    <div class="header-column__content">
+      <!--
+      Recurso técnico alternativo para centralizar o nome da coluna
+      e não dançar ao ordenar por outra coluna
+    -->
+      <ion-icon *ngIf="!column.NoSort"></ion-icon>
+
+      <span class="header-column__text">
+        {{ column.Label }}
+      </span>
+
+      <ion-icon
+        *ngIf="!column.NoSort && sorting?.SortColumn === column.Key"
+        color="primary"
+        [name]="
+          sorting?.SortDirection === sortDirection.ASC
+            ? 'arrow-up-outline'
+            : 'arrow-down-outline'
+        "
+      ></ion-icon>
+      <ion-icon
+        name="arrow-up-down"
+        color="medium"
+        style="opacity: 0.3"
+        *ngIf="!column.NoSort && sorting?.SortColumn !== column.Key"
+      ></ion-icon>
+    </div>
+  </th>
+</ng-template>
+
+<ng-template
+  #dataContent
+  let-column="column"
+  let-rowSpan="rowSpan"
+  let-item="item"
+  let-subitem="subitem"
+  let-ngClass="ngClass"
+>
+  <ng-container
+    *ngIf="
+      !column.HideContent ||
+      column.HideContent(
+        subitem ? subitem[column.Key] : item[column.Key],
+        item,
+        subitem
+      )
+    "
+  >
+    <ng-template [ngIf]="column.Template" [ngIfElse]="text">
+      <ng-template
+        [ngTemplateOutlet]="column.Template"
+        [ngTemplateOutletContext]="{
+          item: item,
+          subitem: subitem,
+          value:
+            exporting && column.ExportFormatter
+              ? column.ExportFormatter(
+                  subitem ? subitem[column.Key] : item[column.Key],
+                  item,
+                  subitem
+                )
+              : column.Formatter
+              ? column.Formatter(
+                  subitem ? subitem[column.Key] : item[column.Key],
+                  item,
+                  subitem
+                )
+              : subitem
+              ? subitem[column.Key]
+              : item[column.Key]
+        }"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template #text>
+      <span
+        [innerHTML]="
+          exporting && column.ExportFormatter
+            ? column.ExportFormatter(
+                subitem ? subitem[column.Key] : item[column.Key],
+                item,
+                subitem
+              )
+            : column.Formatter
+            ? column.Formatter(
+                subitem ? subitem[column.Key] : item[column.Key],
+                item,
+                subitem
+              )
+            : ((subitem ? subitem[column.Key] : item[column.Key])
+              | safe : 'html')
+        "
+      ></span>
+    </ng-template>
+  </ng-container>
+</ng-template>
+<ng-template
+  #bodyCell
+  let-column="column"
+  let-rowSpan="rowSpan"
+  let-item="item"
+  let-subitem="subitem"
+  let-ngClass="ngClass"
+>
+  <td
+    [rowSpan]="rowSpan || 1"
+    [ngClass]="ngClass"
+    [class]="column.CssClass || ''"
+  >
+    <ng-template
+      [ngTemplateOutlet]="dataContent"
+      [ngTemplateOutletContext]="{
+        column,
+        item,
+        subitem
+      }"
+    ></ng-template>
+  </td>
+</ng-template>
+
+<ion-card class="grid-card ion-hide-sm-down" #card>
+  <div class="my-loading-overlay" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <ion-card-content
+    class="grid-card__content"
+    #cardContent
+    [ngClass]="{ 'has-paginator': paginator }"
+  >
+    <table #gridTable class="grid">
+      <thead>
+        <tr *ngIf="groupColumns?.length">
+          <th
+            [colSpan]="groupColumn.ColSpan || 1"
+            [class]="groupColumn.CssClass || ''"
+            *ngFor="let groupColumn of groupColumns"
+          >
+            {{ groupColumn.Label }}
+          </th>
+        </tr>
+        <tr>
+          <ng-template
+            [ngTemplateOutlet]="headerCell"
+            [ngTemplateOutletContext]="{
+              column: column
+            }"
+            *ngFor="let column of singleRowColumns"
+          ></ng-template>
+          <ng-template
+            [ngTemplateOutlet]="headerCell"
+            [ngTemplateOutletContext]="{
+              column: column
+            }"
+            *ngFor="let column of multiRowColumns"
+          ></ng-template>
+        </tr>
+      </thead>
+      <tbody *ngIf="(loading && !items.length) || (!loading && !items.length)">
+        <tr>
+          <td
+            [colSpan]="
+              (singleRowColumns?.length || 0) + (multiRowColumns?.length || 0)
+            "
+          >
+            <p class="ion-padding" *ngIf="loading">Buscando registros...</p>
+            <div class="ion-padding" *ngIf="!loading && hasFilter">
+              <p>
+                Nenhum registro foi encontrado. Verifique a paginação e/ou seus
+                filtros.
+              </p>
+              <p>
+                Caso o problema persista,
+                <ion-text
+                  style="font-weight: bold; cursor: pointer"
+                  color="primary"
+                  (click)="resetUrlGridParams()"
+                  >clique aqui.</ion-text
+                >
+              </p>
+            </div>
+            <div class="ion-padding" *ngIf="!loading && !hasFilter">
+              <p>Nenhum registro foi encontrado.</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody
+        *ngFor="let item of items"
+        [ngClass]="{ 'has-multi-row': multiRowColumnKey }"
+      >
+        <ng-container
+          *ngIf="!multiRowColumnKey || !item[multiRowColumnKey].length"
+        >
+          <tr>
+            <ng-template
+              [ngTemplateOutlet]="bodyCell"
+              [ngTemplateOutletContext]="{
+                column: column,
+                item: item
+              }"
+              *ngFor="let column of singleRowColumns"
+            ></ng-template>
+
+            <td
+              [class]="item.CssClass || ''"
+              *ngFor="let item of multiRowColumns"
+            ></td>
+          </tr>
+        </ng-container>
+        <ng-container
+          *ngIf="multiRowColumnKey && item[multiRowColumnKey].length"
+        >
+          <tr
+            *ngFor="
+              let multiRowItem of item[multiRowColumnKey];
+              let primeiraLinha = first
+            "
+          >
+            <ng-container *ngIf="primeiraLinha">
+              <ng-template
+                [ngTemplateOutlet]="bodyCell"
+                [ngTemplateOutletContext]="{
+                  column: column,
+                  item: item,
+                  rowSpan: item[multiRowColumnKey].length
+                }"
+                *ngFor="let column of singleRowColumns"
+              ></ng-template>
+            </ng-container>
+            <ng-container *ngFor="let multiColumn of multiRowColumns">
+              <ng-template
+                [ngTemplateOutlet]="bodyCell"
+                [ngTemplateOutletContext]="{
+                  column: multiColumn,
+                  item: item,
+                  subitem: multiRowItem
+                }"
+              ></ng-template>
+            </ng-container>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </ion-card-content>
+
+  <app-pagination
+    *ngIf="paginator"
+    [paginator]="paginator"
+    [total]="total"
+    (doRefresh)="updatePaginator($event)"
+  ></app-pagination>
+</ion-card>
+
+<ion-card class="responsive-content-margin ion-hide-sm-up" *ngIf="paginator">
+  <div class="my-loading-overlay" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <app-pagination
+    [paginator]="paginator"
+    [total]="total"
+    (doRefresh)="updatePaginator($event)"
+  ></app-pagination>
+</ion-card>
+
+<ion-card class="responsive-content ion-hide-sm-up" *ngFor="let item of items">
+  <div class="my-loading-overlay" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <ion-card-content class="responsive-content__wrap">
+    <ng-container *ngIf="!multiRowColumnKey">
+      <div class="responsive-content__data" *ngFor="let column of singleRowColumns">
+        <strong
+          class="responsive-content__label"
+          [style.--max-label-length]="this.maxLabelLength"
+          >{{ column.Label }}:</strong
+        >
+        <ng-template
+          [ngTemplateOutlet]="dataContent"
+          [ngTemplateOutletContext]="{
+            column: column,
+            item: item
+          }"
+        ></ng-template>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="multiRowColumnKey && !item[multiRowColumnKey].length">
+      <div class="responsive-content__data" *ngFor="let column of multiRowColumns">
+        <strong
+          class="responsive-content__label"
+          [style.--max-label-length]="maxLabelLength"
+          >{{ column.Label }}:</strong
+        >
+        <span [class]="item.CssClass || ''"
+          ><ion-text color="medium">Não preenchido</ion-text></span
+        >
+      </div>
+    </ng-container>
+
+    <!-- TODO: TRATAR A PARTE DE BAIXO PARA A TABELA SER RESPONSIVA -->
+    <ng-container *ngIf="multiRowColumnKey && item[multiRowColumnKey].length">
+      <div class="responsive-content__data"
+        *ngFor="
+          let multiRowItem of item[multiRowColumnKey];
+          let primeiraLinha = first
+        "
+      >
+        <ng-container *ngIf="primeiraLinha">
+          <ng-template
+            [ngTemplateOutlet]="dataContent"
+            [ngTemplateOutletContext]="{
+              column: column,
+              item: item,
+              rowSpan: item[multiRowColumnKey].length
+            }"
+            *ngFor="let column of singleRowColumns"
+          ></ng-template>
+        </ng-container>
+        <ng-container *ngFor="let multiColumn of multiRowColumns">
+          <ng-template
+            [ngTemplateOutlet]="dataContent"
+            [ngTemplateOutletContext]="{
+              column: multiColumn,
+              item: item,
+              subitem: multiRowItem
+            }"
+          ></ng-template>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ion-card-content>
+</ion-card>
+
+<ion-card class="responsive-content-margin ion-hide-sm-up" *ngIf="paginator">
+  <div class="my-loading-overlay" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <app-pagination
+    [paginator]="paginator"
+    [total]="total"
+    (doRefresh)="updatePaginator($event)"
+  ></app-pagination>
+</ion-card>

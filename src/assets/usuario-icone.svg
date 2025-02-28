@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="54.954" height="59.266" viewBox="-10 -3 75 75">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #a2a2a2;
+        stroke-width: 3px;
+      }
+
+      .cls-1 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="person-outline" transform="translate(-62.49 -46.5)">
+    <path id="Caminho_159" data-name="Caminho 159" class="cls-1" d="M191.561,60.984c-.53,7.151-5.951,12.984-11.9,12.984s-11.382-5.832-11.9-12.984C167.215,53.545,172.49,48,179.658,48A11.73,11.73,0,0,1,191.561,60.984Z" transform="translate(-89.692)"/>
+    <path id="Caminho_160" data-name="Caminho 160" class="cls-2" d="M89.967,304c-11.767,0-23.71,6.492-25.92,18.746a2.272,2.272,0,0,0,2.115,2.894h47.609a2.272,2.272,0,0,0,2.117-2.894C113.677,310.492,101.734,304,89.967,304Z" transform="translate(0 -221.375)"/>
+  </g>
+</svg>

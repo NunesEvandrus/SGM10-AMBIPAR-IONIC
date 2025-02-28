@@ -1,0 +1,23 @@
+:host {
+  --ion-background-color: #f1f1f1;
+
+  .photo-capture {
+    &__grid {
+      height: 100%;
+    }
+
+    &__row {
+      height: 100%;
+      align-items: center;
+    }
+
+    &__col {
+      text-align: center;
+    }
+
+    &__foto {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}

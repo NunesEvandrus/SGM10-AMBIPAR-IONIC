@@ -1,0 +1,30 @@
+// @media print {
+//   h1 {
+//     color: red;
+//   }
+// }
+
+:host {
+  app-grid {
+    ::ng-deep {
+      .grid-card {
+        max-height: calc(100vh - 90px);
+      }
+    }
+  }
+}
+
+.manutencao {
+  &__popover {
+    --min-width: 350px;
+    --max-width: 100%;
+  }
+
+  &__observacoes {
+    color: #555;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 16px 8px;
+  }
+}

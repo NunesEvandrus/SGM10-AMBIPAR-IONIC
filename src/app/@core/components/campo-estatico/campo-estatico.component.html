@@ -1,0 +1,17 @@
+<ion-item [button]="button" [detail]="button">
+  <ion-label class="ion-text-wrap" [position]="button ? undefined : 'stacked'">
+    <ion-text color="medium" class="d-block">
+      {{ label }} <span *ngIf="required" class="campo-obrigatorio"></span>
+    </ion-text>
+    <ion-text *ngIf="value" [innerHTML]="value" color="dark" class="d-block">
+    </ion-text>
+  </ion-label>
+  <ion-icon
+    *ngIf="photo"
+    class="align-self-center"
+    color="primary"
+    name="image-outline"
+    slot="end"
+  ></ion-icon>
+  <ng-content></ng-content>
+</ion-item>

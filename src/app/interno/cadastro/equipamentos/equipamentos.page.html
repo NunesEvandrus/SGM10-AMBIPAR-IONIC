@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <app-menu-toggle></app-menu-toggle>
+    </ion-buttons>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="abrirFormulario()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+      <ion-button [color]="hasFilter ? 'warning' : null" (click)="openFilter()">
+        <ion-icon
+          slot="icon-only"
+          [name]="hasFilter ? 'funnel' : 'funnel-outline'"
+        ></ion-icon>
+      </ion-button>
+      <ion-button (click)="gridComponent.exportToExcel(title)">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <app-filter-preview
+    *ngIf="hasFilter"
+    [filter]="filter"
+    [filterMaps]="filterMaps"
+    [filterControls]="filterControls"
+    (click)="openFilter()"
+  ></app-filter-preview>
+  <ion-breadcrumbs>
+    <ion-breadcrumb href="#home">Home</ion-breadcrumb>
+    <ion-breadcrumb href="#electronics">Equipamentos</ion-breadcrumb>
+  </ion-breadcrumbs>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <app-grid
+    #gridComponent
+    [singleRowColumns]="columns"
+    [items]="items"
+    [paginator]="paginator"
+    [sorting]="sorting"
+    [total]="total"
+    [loading]="loading"
+    (doRefresh)="refreshItems($event)"
+  ></app-grid>
+
+  <ng-template #qrcodeCell let-equipamento="item">
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      *ngIf="!isNativePlatform"
+      [href]="generateLinkEquipamento(equipamento)"
+      target="_blank"
+    >
+      <ion-icon name="open-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      *ngIf="isNativePlatform"
+      [routerLink]="generateLinkEquipamento(equipamento)"
+    >
+      <ion-icon name="open-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      (click)="exibirQRCode(equipamento)"
+    >
+      <ion-icon slot="icon-only" name="qr-code-outline"></ion-icon>
+    </ion-button>
+  </ng-template>
+
+  <ng-template #actionsCell let-equipamento="item">
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      (click)="visualizarRegistro(equipamento)"
+    >
+      <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+    </ion-button>
+  </ng-template>
+
+  <ng-template #statusCell let-equipamento="item">
+    <ion-badge
+      [color]="equipamento.statusEquEnum == 'Operacional' ? 'success' : 'danger'"
+    >
+      {{equipamento.statusEquEnum == 'Operacional' ? 'Operacional' : 'Não
+      Operacional'}}
+    </ion-badge>
+  </ng-template>
+</ion-content>

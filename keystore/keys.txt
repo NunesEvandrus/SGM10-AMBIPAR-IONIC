@@ -1,0 +1,5 @@
+keystorePath: ./sgm10-keystore.jks
+password: 3v@N2r0
+
+alias: sgm10
+password: 3v@N2r0_SgM10

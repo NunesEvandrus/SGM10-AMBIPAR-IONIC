@@ -1,0 +1,30 @@
+<ion-toolbar color="light" class="filter-preview">
+  <div class="filter-preview__wrap">
+    <span class="filter-preview__label"> Filtros aplicados: </span>
+    <ng-container *ngFor="let control of filterControls">
+      <div class="filter-preview__item" *ngIf="filter[control.Key]">
+        <span class="filter-preview__label">{{ control.Params.Label }}: </span>
+        <span
+          class="filter-preview__value"
+          *ngIf="control.Type === controlTypes.DATE"
+        >
+          {{ filter[control.Key] | date: "dd/MM/Y" }}
+        </span>
+        <span
+          class="filter-preview__value"
+          *ngIf="control.Type !== controlTypes.DATE"
+        >
+          {{
+            filter[control.Key] === "true"
+              ? "Sim"
+              : filter[control.Key] === "false"
+              ? "Não"
+              : filterMaps[control.Key]
+              ? filterMaps[control.Key][filter[control.Key]]
+              : filter[control.Key]
+          }}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+</ion-toolbar>

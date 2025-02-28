@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        text-align: center;
+      }
+
+      .equipamento {
+        page-break-after: always;
+        display: inline-block;
+        border: 2px solid #999;
+        border-radius: 8px;
+        margin: 8px;
+        position: relative;
+      }
+      table td {
+        vertical-align: middle;
+      }
+
+      .equipamento__logo-cda {
+        height: 30px;
+        margin-top: -6px;
+        opacity: 0.4;
+        position: absolute;
+        vertical-align: middle;
+        filter: grayscale(1);
+      }
+      .equipamento__logo-cda:not(.equipamento__logo-cda--direito) {
+        left: 4px;
+      }
+      .equipamento__logo-cda--direito {
+        right: 4px;
+      }
+
+      .equipamento__qrcode-wrap {
+        text-align: center;
+      }
+
+      .equipamento__qrcode {
+        width: 8cm;
+      }
+
+      .equipamento__nome {
+        padding: 16px 8px 8px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        position: relative;
+      }
+
+      .titulo {
+        padding: 4px 8px;
+        text-align: right;
+        font-weight: bold;
+        color: #777;
+        /* Recurso pra essa coluna ter a menor largura possível */
+        width: 1px;
+      }
+
+      .titulo--no-padding-top {
+        padding-top: 0;
+      }
+
+      .conteudo {
+        padding: 4px 8px 4px 0;
+        text-align: left;
+      }
+
+      .conteudo--no-padding-top {
+        padding-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="equipamento">
+      <table>
+        <tbody>
+          <tr>
+            <td colspan="2" class="equipamento__qrcode-wrap">
+              <img
+                class="equipamento__qrcode"
+                src="https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=aklsdjklasjdflkajsdfkljasdklfhadglfadskfj&choe=UTF-8"
+                alt="QR Code"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td class="titulo titulo--no-padding-top">TIPO:</td>
+            <td class="conteudo conteudo--no-padding-top">ÂNCORA BRUCE</td>
+          </tr>
+          <tr>
+            <td class="titulo">MODELO:</td>
+            <td class="conteudo"></td>
+          </tr>
+          <tr>
+            <td class="titulo">PROPRIEDADE:</td>
+            <td class="conteudo">PETROBRÁS</td>
+          </tr>
+          <tr>
+            <td class="titulo">CONDIÇÃO:</td>
+            <td class="conteudo">NÃO OPERACIONAL</td>
+          </tr>
+          <tr>
+            <td class="equipamento__nome" colspan="2">
+              <img
+                src="./src/assets/cda/logo-azul.svg"
+                class="equipamento__logo-cda"
+                alt=""
+              />
+              ARJ-056-001
+              <img
+                src="./src/assets/logo-navemestra.png"
+                class="equipamento__logo-cda equipamento__logo-cda--direito"
+                alt=""
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

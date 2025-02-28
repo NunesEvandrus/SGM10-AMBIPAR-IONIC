@@ -1,0 +1,145 @@
+:host {
+  position: relative;
+
+  .grid-card {
+    max-height: 100%;
+    max-width: 100%;
+
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .grid-card__content {
+    max-height: 100%;
+    padding: 0;
+
+    &.has-paginator {
+      max-height: calc(100% - 54px);
+    }
+  }
+
+  table {
+    margin: 0 auto;
+    vertical-align: middle;
+    width: 100%;
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+
+      tr {
+        background-color: #fff;
+      }
+
+      th {
+        color: #555;
+      }
+    }
+
+    tbody {
+      &.has-multi-row {
+        border-bottom: 2px solid rgba(var(--ion-color-primary-rgb), 0.2);
+
+        &:last-of-type {
+          border-bottom: none;
+        }
+      }
+
+      &:nth-child(even) {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.05);
+      }
+
+      &:hover {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.1) !important;
+      }
+
+      tr {
+        height: 38px;
+
+        &:nth-child(even) {
+          background-color: rgba(var(--ion-color-primary-rgb), 0.05);
+        }
+      }
+    }
+
+    tr {
+      height: 38px;
+    }
+
+    td,
+    th {
+      padding: 5px 8px;
+      text-align: center;
+      vertical-align: middle;
+
+      ion-icon {
+        vertical-align: middle;
+      }
+    }
+
+    .header-column {
+      cursor: default;
+
+      &--sortable {
+        cursor: pointer;
+
+        .header-column__text {
+          margin: 0 4px;
+        }
+
+        &:hover {
+          color: #000;
+        }
+      }
+
+      &__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ion-icon {
+          min-width: 14px;
+          max-width: 14px;
+        }
+      }
+    }
+  }
+
+  .responsive-content-margin {
+    margin: 0 auto 16px;
+  }
+
+  .responsive-content {
+    margin: 0 auto 16px;
+
+    &:nth-child(even) {
+      .responsive-content__wrap {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.05);
+      }
+    }
+
+    &__wrap {
+      padding: 8px;
+    }
+
+    &__data {
+      padding: 2px 4px;
+      line-height: 1.5;
+    }
+
+    &__label {
+      display: inline-block;
+      // text-align: right;
+      width: calc(var(--max-label-length) * 8px + 4px);
+      margin-right: 4px;
+    }
+
+    ::ng-deep {
+      .table-button {
+        margin: 0 0 0px;
+        position: relative;
+      }
+    }
+  }
+}

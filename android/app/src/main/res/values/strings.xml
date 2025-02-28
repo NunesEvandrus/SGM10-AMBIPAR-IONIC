@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SGM 10</string>
+    <string name="title_activity_main">SGM 10</string>
+    <string name="package_name">br.com.ecnsystem.sgm10</string>
+    <string name="custom_url_scheme">br.com.ecnsystem.sgm10</string>
+</resources>

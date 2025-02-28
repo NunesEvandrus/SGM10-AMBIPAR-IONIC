@@ -1,0 +1,32 @@
+<div #qrcodeEl class="qrcode" [hidden]="!qrcode">
+  <div class="qrcode__wrap">
+    <div class="qrcode__alinhador-imagem">
+      <!-- gambs -->
+    </div>
+    <img
+      *ngIf="qrcode"
+      class="qrcode__imagem"
+      crossorigin="anonymous"
+      [src]="
+        'https://quickchart.io/chart?cht=qr&chs=450x450&chl=' +
+        qrcode +
+        '&choe=UTF-8'
+      "
+    />
+
+    <div class="qrcode__logo-row">
+      <div class="qrcode__logo-wrap">
+        <img [src]="logo" class="qrcode__logo" />
+      </div>
+
+      <div class="qrcode__titulo-wrap">
+        <div class="qrcode__titulo">{{ titulo }}</div>
+        <div class="qrcode__subtitulo" *ngIf="subtitulo">
+          {{ subtitulo }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qrcode__link">{{ footer }}</div>
+</div>

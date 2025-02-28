@@ -1,0 +1,33 @@
+:host {
+  display: block;
+
+  .imagem-spinner {
+    display: inline-block;
+  }
+
+  img {
+    height: 100%;
+  }
+
+  &.img-loaded {
+    .imagem-spinner {
+      display: none;
+    }
+  }
+
+  &.img-loaded.not-found {
+    background-color: #e8edf0;
+
+    &::before {
+      display: none;
+    }
+
+    .not-found {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

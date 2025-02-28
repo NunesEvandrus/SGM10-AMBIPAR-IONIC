@@ -1,0 +1,8 @@
+export enum OrdemServicoTipo {
+  PREVENTIVAS = 1,
+  POS_OPERACAO = 6,
+  CORRETIVAS = 7,
+  PREDITIVA = 12,
+  CORRETIVAS_SMS = 13,
+  ORDEM_TESTE = 14,
+}

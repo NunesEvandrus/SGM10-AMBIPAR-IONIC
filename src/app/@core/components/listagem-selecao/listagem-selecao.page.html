@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{title}} </ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar
+      placeholder="Buscar item"
+      (ionInput)="filtrar($event)"
+      showClearButton="always"
+      mode="ios"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p class="ion-text-center ion-padding" *ngIf="!itemsFiltrados?.length">
+    Nenhum item encontrado
+  </p>
+  <ion-list class="listagem" *ngIf="itemsFiltrados?.length">
+    <ion-item
+      *ngFor="let item of itemsFiltrados; let ultimo = last"
+      class="listagem__item"
+      [ngClass]="{'listagem__item--inativo': item.Active === false}"
+      button="true"
+      [lines]="ultimo ? 'none' : 'full'"
+      (click)="selecionar(item.Key)"
+    >
+      <ng-container slot="start">
+        <ion-icon
+          *ngIf="!multiple && isSelecionado(item.Key)"
+          color="primary"
+          class="listagem__item-status"
+          name="radio-button-on-outline"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="!multiple && !isSelecionado(item.Key)"
+          color="medium"
+          class="listagem__item-status"
+          name="radio-button-off-outline"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="multiple && isSelecionado(item.Key)"
+          color="primary"
+          class="listagem__item-status"
+          name="checkbox-outline"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="multiple && !isSelecionado(item.Key)"
+          color="medium"
+          class="listagem__item-status"
+          name="square-outline"
+        ></ion-icon>
+      </ng-container>
+
+      <ion-label class="ion-text-wrap">
+        {{ item.Label }}
+
+        <p *ngIf="item.Sublabel">{{ item.Sublabel }}</p>
+      </ion-label>
+
+      <ion-badge
+        class="listagem__badge-inativo"
+        slot="end"
+        *ngIf="item.Active === false"
+      >
+        Inativo
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab
+    class="confirma-selecao"
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+  >
+    <ion-fab-button (click)="retornarSelecionados()">
+      <ion-icon
+        class="confirma-selecao__icone"
+        name="checkmark-sharp"
+        [ngClass]="{'confirma-selecao__icone--topped': multiple}"
+      ></ion-icon>
+      <ion-badge
+        class="confirma-selecao__count"
+        *ngIf="multiple"
+        color="primary"
+        mode="ios"
+      >
+        {{internalSelecionados?.length || 0}}
+      </ion-badge>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

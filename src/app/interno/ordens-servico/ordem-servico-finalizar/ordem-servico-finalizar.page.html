@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Finalizar {{singularRegisterName}} </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="abaAtiva" mode="md">
+      <ion-segment-button value="tarefas">
+        <ion-label>
+          Tarefas ({{tarefasMarcadas}}/{{ tarefas.length}})
+        </ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="execucao">
+        <ion-label>Execução</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="materiais">
+        <ion-label>Materiais</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="abaAtiva === 'tarefas'">
+    <div class="ion-padding ion-margin ion-text-center" *ngIf="loading">
+      <ion-spinner></ion-spinner>
+    </div>
+    <ion-checkbox
+      class="tarefa"
+      mode="md"
+      labelPlacement="end"
+      justify="start"
+      [(ngModel)]="tarefa.marcada"
+      *ngFor="let tarefa of tarefas"
+    >
+      <div class="tarefa__texto">
+        {{tarefa.nome}}
+        <div *ngIf="tarefa.descricao" style="margin-top: 8px">
+          <ion-text color="medium"> {{tarefa.descricao}} </ion-text>
+        </div>
+      </div>
+    </ion-checkbox>
+  </ion-grid>
+  <my-form
+    [hidden]="abaAtiva !== 'execucao'"
+    [loading]="loading"
+    submitColor="primary"
+    submitText="Salvar"
+    [value]="formValue"
+    [controls]="formControls"
+    (myChange)="atualizaInformacoes($event)"
+    (mySubmit)="salvar($event)"
+  ></my-form>
+  <my-form
+    [hidden]="abaAtiva !== 'materiais'"
+    [loading]="loading"
+    submitColor="primary"
+    submitText="Adicionar Material"
+    [value]="formValue"
+    [controls]="formControlsMateriais"
+    (myChange)="atualizaInformacoes($event)"
+    (mySubmit)="AdicionarMaterial($event)"
+  ></my-form>
+  <ion-grid *ngIf="abaAtiva === 'materiais'">
+    <ion-button id="click-trigger"
+      ><ion-icon slot="icon-only" name="information-outline"></ion-icon
+    ></ion-button>
+    <ion-popover trigger="click-trigger" triggerAction="click">
+      <ng-template>
+        <ion-content class="ion-padding"
+          >Para aumentar ou diminir a quantidade do inclua o mesmo item somando
+          ou reduzindo a quantidade.
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+    <div class="ion-padding ion-margin ion-text-center" *ngIf="loading">
+      <ion-spinner></ion-spinner>
+    </div>
+    <ion-checkbox
+      class="tarefa"
+      mode="md"
+      labelPlacement="end"
+      justify="start"
+      [(ngModel)]="material.marcado"
+      *ngFor="let material of materiaisUtilizados"
+    >
+      <div class="tarefa__texto">
+        <div style="margin-top: 8px">
+          <ion-text color="medium">
+            {{material.nomeMaterial}} - {{material.quantidade}} -
+            {{material.unidade}}
+          </ion-text>
+        </div>
+      </div>
+    </ion-checkbox>
+  </ion-grid>
+</ion-content>

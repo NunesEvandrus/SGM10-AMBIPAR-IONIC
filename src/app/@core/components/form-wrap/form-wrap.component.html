@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-padding-bottom">
+        <ion-text color="medium">
+          <p class="ion-padding-start p18">
+            <span
+              class="campo-obrigatorio campo-obrigatorio--no-margin-left"
+            ></span>
+            campos obrigatórios
+          </p>
+        </ion-text>
+
+        <ng-content></ng-content>
+
+        <ion-button class="ion-margin-top" expand="block" (click)="save.emit()">
+          {{ saveText }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,28 @@
+:host {
+  .data-viewer {
+    padding: 8px;
+
+    &__wrap {
+      padding: 4px;
+      line-height: 1.5;
+
+      @media (max-width: 575px) {
+        &:nth-child(even) {
+          border-radius: 4px;
+          background: rgba(var(--ion-color-primary-rgb), 0.05);
+        }
+      }
+    }
+
+    &__label-line {
+      font-weight: bold;
+    }
+
+    &__label {
+      display: inline-block;
+      // text-align: right;
+      width: calc(var(--max-label-length) * 8px + 4px);
+      margin-right: 4px;
+    }
+  }
+}

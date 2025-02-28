@@ -1,0 +1,31 @@
+:host {
+  h2 {
+    font-size: 30px;
+  }
+
+  .indicador {
+    ion-row,
+    ion-col {
+      padding: 0;
+    }
+    ion-card {
+      margin: 4px;
+      text-align: center;
+      padding: 8px 0;
+      ion-card-content {
+        padding-left: 8px;
+      }
+    }
+    ion-icon {
+      font-size: 25px;
+      background-color: rgba(var(--ion-color-primary-rgb), 0.2);
+      border-radius: 50%;
+      padding: 10px;
+      opacity: 0.5;
+    }
+
+    &__titulo {
+      font-size: 16px;
+    }
+  }
+}

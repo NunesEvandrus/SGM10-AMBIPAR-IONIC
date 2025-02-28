@@ -1,0 +1,52 @@
+:host {
+  ion-content {
+    --background: #f1f1f1;
+
+    .listagem {
+      --ion-background-color: #fff;
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
+        rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
+      border-radius: 4px;
+
+      &__item {
+        --padding-start: 0;
+
+        &--inativo {
+          --color: #999;
+
+          ion-label {
+            p {
+              color: var(--color);
+            }
+          }
+        }
+      }
+
+      &__item-status {
+        margin: 0 16px;
+      }
+
+      &__badge-inativo {
+        --background: #aaa;
+        --color: white;
+        margin: 0 12px;
+      }
+    }
+
+    .confirma-selecao {
+      &__icone {
+        &--topped {
+          margin-top: -12px;
+        }
+      }
+      &__count {
+        --padding-top: 0;
+        --padding-bottom: 0;
+        --padding-start: 4px;
+        --padding-end: 4px;
+        position: absolute;
+        bottom: 8px;
+      }
+    }
+  }
+}

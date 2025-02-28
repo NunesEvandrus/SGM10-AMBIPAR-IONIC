@@ -1,0 +1,135 @@
+<ion-header *ngIf="isLogged">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cadastro/equipamentos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Equipamento {{equipamento.tag}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ion-padding ion-text-center" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <ion-grid class="ion-no-padding" *ngIf="!loading">
+    <ion-row
+      class="ion-justify-content-center ion-margin-bottom"
+      *ngIf="!isLogged"
+    >
+      <ion-col size="auto">
+        <ion-text color="medium">
+          Para interagir com as manutenções,
+          <a
+            fill="outline"
+            [routerLink]="'/acesso/historico-equipamento/' + equipamentoId"
+          >
+            entre no sistema.
+          </a>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col sizeXs="12" sizeLg="6">
+        <h4 class="ion-text-center">
+          <ion-text color="primary">Infomações do equipamento</ion-text>
+        </h4>
+
+        <app-data-viewer
+          [fields]="fields"
+          [data]="equipamento"
+        ></app-data-viewer>
+      </ion-col>
+      <ion-col sizeXs="12" sizeLg="6">
+        <h4 class="ion-text-center">
+          <ion-text color="primary">Manutenções</ion-text>
+        </h4>
+
+        <ion-row class="ion-justify-content-center ion-padding-bottom">
+          <ion-col size="auto">
+            <ion-button
+              color="primary"
+              size="small"
+              [fill]="abaAtiva === abas.Proximas ? 'solid' : 'clear'"
+              (click)="abaAtiva = abas.Proximas; atualizaGridManutencoes()"
+            >
+              Proximas
+            </ion-button>
+          </ion-col>
+          <ion-col size="auto">
+            <ion-button
+              color="primary"
+              size="small"
+              [fill]="abaAtiva === abas.Executadas ? 'solid' : 'clear'"
+              (click)="abaAtiva = abas.Executadas; atualizaGridManutencoes()"
+            >
+              Executadas
+            </ion-button>
+          </ion-col>
+          <ion-col size="auto">
+            <ion-button
+              color="primary"
+              size="small"
+              [fill]="abaAtiva === abas.Planejamento ? 'solid' : 'clear'"
+              (click)="abaAtiva = abas.Planejamento; atualizaGridManutencoes()"
+            >
+              Planejamento
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <app-grid
+          #gridComponent
+          [singleRowColumns]="columns"
+          [items]="equipamento[abaAtiva]"
+          [paginator]="null"
+          [sorting]="null"
+          [total]="equipamento[abaAtiva].length"
+          [loading]="loading"
+          [hasFilter]="false"
+        ></app-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ng-template #observacoesCell let-manutencao="item">
+    <ion-button
+      class="table-button"
+      [id]="'manutencao-'+ manutencao.id"
+      size="small"
+      fill="clear"
+      [color]="manutencao.observacao ? 'primary' : 'medium'"
+      (click)="popover.present()"
+    >
+      <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
+    </ion-button>
+    <ion-popover
+      #popover
+      class="manutencao__popover"
+      [reference]="'manutencao-'+ manutencao.id"
+      side="left"
+      alignment="start"
+    >
+      <ng-template>
+        <ion-content>
+          <div
+            class="manutencao__observacoes"
+            [innerHTML]="manutencao.observacao || 'Sem observações'"
+          ></div>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </ng-template>
+
+  <ng-template #finalizarCell let-manutencao="item">
+    <ion-button
+      class="table-button"
+      size="small"
+      fill="clear"
+      title="Executar"
+      (click)="finalizarOrdemServico(manutencao)"
+    >
+      <ion-icon slot="icon-only" name="play-circle-outline"></ion-icon>
+    </ion-button>
+  </ng-template>
+</ion-content>

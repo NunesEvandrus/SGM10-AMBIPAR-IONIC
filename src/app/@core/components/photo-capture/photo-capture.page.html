@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">
+        <ion-icon
+          slot="icon-only"
+          md="arrow-back-outline"
+          ios="chevron-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Foto preview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="photo-capture">
+  <ion-grid class="photo-capture__grid">
+    <ion-row class="photo-capture__row">
+      <ion-col class="photo-capture__col" *ngIf="!foto">
+        <p>
+          <ion-text color="medium">Nenhuma foto obtida</ion-text>
+        </p>
+        <ion-button (click)="obterFoto()" *ngIf="!somenteConsulta">
+          Capturar foto
+        </ion-button>
+      </ion-col>
+      <ion-col class="photo-capture__col" *ngIf="foto">
+        <app-imagem class="photo-capture__foto" [src]="foto"></app-imagem>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light" *ngIf="legendaHabilitada">
+    <ion-textarea
+      class="ion-no-margin"
+      [disabled]="somenteConsulta"
+      placeholder="Digite aqui as observações sobre a foto"
+      [(ngModel)]="legenda"
+    ></ion-textarea>
+  </ion-toolbar>
+  <ion-toolbar color="light" *ngIf="!somenteConsulta">
+    <ion-buttons slot="start" *ngIf="foto">
+      <ion-button color="danger" fill="clear" (click)="removerFoto()">
+        Remover foto
+      </ion-button>
+    </ion-buttons>
+    <ion-button color="warning" fill="clear" (click)="obterFoto()" *ngIf="foto">
+      Nova foto
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="primary" fill="solid" (click)="confirmar()">
+        Confirmar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

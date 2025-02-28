@@ -1,0 +1,41 @@
+<ion-card class="ion-no-margin">
+  <ion-row class="data-viewer ion-align-items-start">
+    <ion-col
+      *ngFor="let field of this.fields"
+      class="data-viewer__wrap"
+      [size]="field.ColSize?.Size"
+      [sizeXs]="field.ColSize?.SizeXs || 12"
+      [sizeSm]="field.ColSize?.SizeSm || field.ColSize?.Size"
+      [sizeMd]="field.ColSize?.SizeMd || field.ColSize?.Size"
+      [sizeLg]="field.ColSize?.SizeLg || field.ColSize?.Size"
+      [sizeXl]="field.ColSize?.SizeXl || field.ColSize?.Size"
+    >
+      <div class="data-viewer__label-line ion-hide-sm-down">
+        {{ field.Label }}:
+      </div>
+
+      <strong
+        class="data-viewer__label ion-hide-sm-up"
+        [style.--max-label-length]="maxLabelLength"
+      >
+        {{ field.Label }}:
+      </strong>
+      <span
+        *ngIf="
+          data[field.Key] !== '' &&
+            data[field.Key] !== undefined &&
+            data[field.Key] !== null;
+          else naoCadastrado
+        "
+        [innerHTML]="
+          field.Formatter
+            ? field.Formatter(data[field.Key], data)
+            : (data[field.Key] | safe : 'html')
+        "
+      ></span>
+      <ng-template #naoCadastrado>
+        <span><ion-text color="medium">Não preenchido</ion-text></span>
+      </ng-template>
+    </ion-col>
+  </ion-row>
+</ion-card>

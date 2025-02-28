@@ -1,0 +1,52 @@
+<ion-content class="login-credenciais">
+  <app-acesso-wrap>
+    <form [formGroup]="form" name="login-credenciais" (submit)="login()">
+      <p class="login-credenciais__chamada-preenchimento">
+        Informe o seu usuário e senha
+      </p>
+
+      <ion-item>
+        <ion-label position="floating">Usuário</ion-label>
+        <ion-input
+          formControlName="user"
+          autocomplete="off"
+          type="email"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input
+          formControlName="senha"
+          autocomplete="off"
+          #senha
+          type="password"
+        ></ion-input>
+
+        <ion-button
+          class="align-self-center"
+          slot="end"
+          fill="clear"
+          (click)="senha.type = senha.type == 'password' ? 'text' : 'password'"
+        >
+          <ion-icon
+            [name]="senha.type === 'password' ? 'eye-outline' : 'eye-off-outline'"
+            slot="icon-only"
+          ></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="login-credenciais__botao-acessar"
+      >
+        Acessar
+      </ion-button>
+
+      <p class="ion-margin-top ion-text-center">
+        <ion-text color="medium">v{{appVersion}}</ion-text>
+      </p>
+    </form>
+  </app-acesso-wrap>
+</ion-content>
